@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Crop Image</title>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+<script src="https://rawgit.com/arccoder/selectincanvas.js/master/src/selectincanvas.js"></script>
+</head>
+<body>
+<h1>Crop Image</h1>
+<canvas id="layer1" width="640" height="480" style="border:1px solid #000000; position:absolute; left:10; top:10;"></canvas>
+<canvas id="layer2" width="640" height="480" style="border:1px solid #000000; position:absolute; left:10; top:10;"></canvas>
+
+<script>
+
+	// Canvas for image
+	var canvas1 = document.getElementById("layer1");
+    var ctx1 = canvas1.getContext("2d");
+	// Canvas for overlay
+	var canvas2 = document.getElementById("layer2");
+    var ctx2 = canvas2.getContext("2d");
+	
+	var img = new Image();
+	img.onload = function(){
+		ctx1.drawImage(img,canvas1.width/2-img.width/2,canvas1.height/2-img.height/2);
+		
+		// Invoke selectInCanvas.js
+		sicJs = new SICjs("layer2",canvas2,ctx2,'#FF0000');
+		sicJs.setLimits(canvas2.width/2-img.width/2,canvas2.height/2-img.height/2,img.width, img.height);
+		sicJs.setRect(canvas2.width/2-img.width/2,canvas2.height/2-img.height/2,img.width, img.height);
+	};
+	img.src = "http://www.familyfriendpoems.com/images/hero/nature-nature.jpg";  
+	
+	$("#layer2").dblclick(function(e){
+		rect = sicJs.getRect();
+		alert(rect.x + ',' + rect.y + ',' + rect.w + ',' + rect.h);
+		
+		var imgData = ctx1.getImageData(rect.x,rect.y,rect.w, rect.h);
+		ctx1.putImageData(imgData,0,0);
+	});
+	
+</script>
+
+</body>
+</html>
