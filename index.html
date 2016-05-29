@@ -37,10 +37,25 @@
 		alert(rect.x + ',' + rect.y + ',' + rect.w + ',' + rect.h);
 		
 		var imgData = ctx1.getImageData(rect.x,rect.y,rect.w, rect.h);
-		ctx1.putImageData(imgData,0,0);
 		
-		var saveImage = imgData.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
-		window.location.href = saveImage; // it will save locally
+		// Save roi image into another canvas to save locally
+		var imgCanvas = document.createElement('canvas');
+		imgCanvas.id = "saveimage";
+		canvas.width = rect.w;
+		canvas.height = rect.h;
+		var imgCtx = imgCanvas.getContext("2d");
+		imgCtx.putImageData(imgData,0,0);
+		
+  		var dt = imgCanvas.toDataURL('image/png');
+  		/* Change MIME type to trick the browser to downlaod the file instead of displaying it */
+  		dt = dt.replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
+
+  		/* In addition to <a>'s "download" attribute, you can define HTTP-style headers */
+  		dt = dt.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=canvas.png');
+
+  		this.href = dt;
+		//window.location.href = saveImage;
+
 	});
 	
 </script>
