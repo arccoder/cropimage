@@ -41,8 +41,8 @@
 		// Save roi image into another canvas to save locally
 		var imgCanvas = document.createElement('canvas');
 		imgCanvas.id = "saveimage";
-		canvas.width = rect.w;
-		canvas.height = rect.h;
+		imgCanvas.width = rect.w;
+		imgCanvas.height = rect.h;
 		var imgCtx = imgCanvas.getContext("2d");
 		imgCtx.putImageData(imgData,0,0);
 		
