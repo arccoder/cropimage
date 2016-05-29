@@ -39,8 +39,8 @@
 		var imgData = ctx1.getImageData(rect.x,rect.y,rect.w, rect.h);
 		ctx1.putImageData(imgData,0,0);
 		
-		var saveImage = canvas1.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
-		window.location.href = imgData; // it will save locally
+		var saveImage = imgData.toDataURL("image/png").replace("image/png", "image/octet-stream");  // here is the most important part because if you dont replace you will get a DOM 18 exception.
+		window.location.href = saveImage; // it will save locally
 	});
 	
 </script>
