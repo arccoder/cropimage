@@ -15,10 +15,10 @@
 
 	// Canvas for image
 	var canvas1 = document.getElementById("layer1");
-    var ctx1 = canvas1.getContext("2d");
+	var ctx1 = canvas1.getContext("2d");
 	// Canvas for overlay
 	var canvas2 = document.getElementById("layer2");
-    var ctx2 = canvas2.getContext("2d");
+    	var ctx2 = canvas2.getContext("2d");
 	
 	var img = new Image();
 	img.onload = function(){
@@ -29,7 +29,7 @@
 		sicJs.setLimits(canvas2.width/2-img.width/2,canvas2.height/2-img.height/2,img.width, img.height);
 		sicJs.setRect(canvas2.width/2-img.width/2,canvas2.height/2-img.height/2,img.width, img.height);
 	};
-	img.src = "http://www.familyfriendpoems.com/images/hero/nature-nature.jpg";  
+	img.src = "nature-nature.jpg";  
 	
 	$("#layer2").dblclick(function(e){
 		rect = sicJs.getRect();
