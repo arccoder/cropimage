@@ -21,6 +21,7 @@
     	var ctx2 = canvas2.getContext("2d");
 	
 	var img = new Image();
+	img.crossOrigin = "Anonymous";
 	img.onload = function(){
 		ctx1.drawImage(img,canvas1.width/2-img.width/2,canvas1.height/2-img.height/2);
 		
