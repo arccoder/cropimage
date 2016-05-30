@@ -8,6 +8,7 @@
 </head>
 <body>
 <h1>Crop Image</h1>
+<a id="dl" download="canvas.png" href="#">Download Cropped Canvas</a>
 <canvas id="layer1" width="640" height="480" style="border:1px solid #000000; position:absolute; left:10; top:10;"></canvas>
 <canvas id="layer2" width="640" height="480" style="border:1px solid #000000; position:absolute; left:10; top:10;"></canvas>
 
@@ -32,9 +33,17 @@
 	};
 	img.src = "nature-nature.jpg";  
 	
+	document.getElementById("dl").addEventListener('click', dlCanvas, false);
+	
 	$("#layer2").dblclick(function(e){
 		rect = sicJs.getRect();
 		alert(rect.x + ',' + rect.y + ',' + rect.w + ',' + rect.h);
+	});
+	
+	/* REGISTER DOWNLOAD HANDLER */
+	/* Only convert the canvas to Data URL when the user clicks. 
+   	This saves RAM and CPU ressources in case this feature is not required. */
+	function dlCanvas() {
 		
 		var imgData = ctx1.getImageData(rect.x,rect.y,rect.w, rect.h);
 		
@@ -51,12 +60,10 @@
   		dt = dt.replace(/^data:image\/[^;]*/, 'data:application/octet-stream');
 
   		/* In addition to <a>'s "download" attribute, you can define HTTP-style headers */
-  		dt = dt.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=canvas.png');
+  		dt = dt.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=Canvas.png');
 
-  		//this.href = dt;
-		window.location.href = dt;
-
-	});
+  		this.href = dt;
+	};
 	
 </script>
 
