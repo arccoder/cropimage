@@ -9,6 +9,7 @@
 <body>
 <h1>Crop Image</h1>
 <a id="dl" download="canvas.png" href="#">Download Cropped Canvas</a>
+<br>
 <canvas id="layer1" width="640" height="480" style="border:1px solid #000000; position:absolute; left:10; top:10;"></canvas>
 <canvas id="layer2" width="640" height="480" style="border:1px solid #000000; position:absolute; left:10; top:10;"></canvas>
 
@@ -38,6 +39,8 @@
 	$("#layer2").dblclick(function(e){
 		rect = sicJs.getRect();
 		alert(rect.x + ',' + rect.y + ',' + rect.w + ',' + rect.h);
+		
+		dlCanvas();
 	});
 	
 	/* REGISTER DOWNLOAD HANDLER */
