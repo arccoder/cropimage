@@ -27,7 +27,8 @@
 	var canvas2 = document.getElementById("layer2");
     	var ctx2 = canvas2.getContext("2d");
 	
-	// var img = new Image();
+	var sicJs;
+	var img;// = new Image();
 	// img.crossOrigin = "Anonymous";
 	// img.onload = function(){
 	// 	ctx1.drawImage(img,canvas1.width/2-img.width/2,canvas1.height/2-img.height/2);
@@ -86,7 +87,7 @@
 	};
 	
 	function loadImage() {
-	        var input, file, fr, img;
+	        var input, file, fr;
 	
 	        if (typeof window.FileReader !== 'function') {
 	            write("The file API isn't supported on this browser yet.");
