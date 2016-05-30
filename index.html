@@ -117,12 +117,12 @@
 	        }
 	
 	        function imageLoaded() {
-	            var canvas = document.getElementById("canvas")
+	            /*var canvas = document.getElementById("canvas")
 	            canvas.width = img.width;
 	            canvas.height = img.height;
-	            var ctx = canvas.getContext("2d");
-	            ctx.drawImage(img,0,0);
-	            alert(canvas.toDataURL("image/png"));
+	            var ctx = canvas.getContext("2d");*/
+	            ctx1.drawImage(img,canvas1.width/2-img.width/2,canvas1.height/2-img.height/2);
+	            //alert(canvas.toDataURL("image/png"));
 	        }
 	
 	        function write(msg) {
