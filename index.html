@@ -27,17 +27,17 @@
 	var canvas2 = document.getElementById("layer2");
     	var ctx2 = canvas2.getContext("2d");
 	
-	var img = new Image();
-	img.crossOrigin = "Anonymous";
-	img.onload = function(){
-		ctx1.drawImage(img,canvas1.width/2-img.width/2,canvas1.height/2-img.height/2);
+	// var img = new Image();
+	// img.crossOrigin = "Anonymous";
+	// img.onload = function(){
+	// 	ctx1.drawImage(img,canvas1.width/2-img.width/2,canvas1.height/2-img.height/2);
 		
-		// Invoke selectInCanvas.js
-		sicJs = new SICjs("layer2",canvas2,ctx2,'#FF0000');
-		sicJs.setLimits(canvas2.width/2-img.width/2,canvas2.height/2-img.height/2,img.width, img.height);
-		sicJs.setRect(canvas2.width/2-img.width/2,canvas2.height/2-img.height/2,img.width, img.height);
-	};
-	img.src = "nature-nature.jpg";  
+	// 	// Invoke selectInCanvas.js
+	// 	sicJs = new SICjs("layer2",canvas2,ctx2,'#FF0000');
+	// 	sicJs.setLimits(canvas2.width/2-img.width/2,canvas2.height/2-img.height/2,img.width, img.height);
+	// 	sicJs.setRect(canvas2.width/2-img.width/2,canvas2.height/2-img.height/2,img.width, img.height);
+	// };
+	// img.src = "nature-nature.jpg";  
 	
 	document.getElementById("oi").addEventListener('click', setOriginal, false);
 	document.getElementById("dl").addEventListener('click', dlCanvas, false);
@@ -117,13 +117,13 @@
 	        }
 	
 	        function imageLoaded() {
-	            /*var canvas = document.getElementById("canvas")
-	            canvas.width = img.width;
-	            canvas.height = img.height;
-	            var ctx = canvas.getContext("2d");*/
 	            ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
 	            ctx1.drawImage(img,canvas1.width/2-img.width/2,canvas1.height/2-img.height/2);
-	            //alert(canvas.toDataURL("image/png"));
+	            
+	            // Invoke selectInCanvas.js
+	            sicJs = new SICjs("layer2",canvas2,ctx2,'#FF0000');
+	            sicJs.setLimits(canvas2.width/2-img.width/2,canvas2.height/2-img.height/2,img.width, img.height);
+	            sicJs.setRect(canvas2.width/2-img.width/2,canvas2.height/2-img.height/2,img.width, img.height);
 	        }
 	
 	        function write(msg) {
