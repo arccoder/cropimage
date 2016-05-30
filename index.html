@@ -48,13 +48,15 @@
    	This saves RAM and CPU ressources in case this feature is not required. */
 	function dlCanvas() {
 		
-		var imgData = ctx1.getImageData(rect.x,rect.y,rect.w, rect.h);
+		var cropRect = sicJs.getRect();
+		
+		var imgData = ctx1.getImageData(cropRect.x,cropRect.y,cropRect.w, cropRect.h);
 		
 		// Save roi image into another canvas to save locally
 		var imgCanvas = document.createElement('canvas');
 		imgCanvas.id = "saveimage";
-		imgCanvas.width = rect.w;
-		imgCanvas.height = rect.h;
+		imgCanvas.width = cropRect.w;
+		imgCanvas.height = cropRect.h;
 		var imgCtx = imgCanvas.getContext("2d");
 		imgCtx.putImageData(imgData,0,0);
 		
