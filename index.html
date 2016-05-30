@@ -8,6 +8,7 @@
 </head>
 <body>
 <h1>Crop Image</h1>
+<a id="oi" href="#">Original Image</a>
 <a id="dl" download="canvas.png" href="#">Download Cropped Canvas</a>
 <br>
 <canvas id="layer1" width="640" height="480" style="border:1px solid #000000; position:absolute; left:10; top:10;"></canvas>
@@ -34,6 +35,7 @@
 	};
 	img.src = "nature-nature.jpg";  
 	
+	document.getElementById("oi").addEventListener('click', setOriginal, false);
 	document.getElementById("dl").addEventListener('click', dlCanvas, false);
 	
 	$("#layer2").dblclick(function(e){
@@ -42,7 +44,7 @@
 		ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
 		ctx1.putImageData(imgData,canvas1.width/2-imgData.width/2,canvas1.height/2-imgData.height/2);
 		
-		sicJs.setLimits(canvas2.width/2-imgData.width/2,canvas2.height/2-imgData.height/2,img.width, img.height);
+		sicJs.setLimits(canvas2.width/2-imgData.width/2,canvas2.height/2-imgData.height/2,imgData.width, imgData.height);
 		sicJs.setRect(canvas2.width/2-imgData.width/2,canvas2.height/2-imgData.height/2,imgData.width, imgData.height);
 	});
 	
@@ -69,6 +71,14 @@
   		dt = dt.replace(/^data:application\/octet-stream/, 'data:application/octet-stream;headers=Content-Disposition%3A%20attachment%3B%20filename=Canvas.png');
 
   		this.href = dt;
+	};
+	
+	function setOriginal() {
+		ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
+		ctx1.putImageData(img,canvas1.width/2-img.width/2,canvas1.height/2-img.height/2);
+		
+		sicJs.setLimits(canvas2.width/2-img.width/2,canvas2.height/2-img.height/2,img.width, img.height);
+		sicJs.setRect(canvas2.width/2-img.width/2,canvas2.height/2-img.height/2,img.width, img.height);
 	};
 	
 </script>
