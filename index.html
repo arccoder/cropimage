@@ -5,18 +5,47 @@
 <title>Crop Image</title>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
 <script src="https://rawgit.com/arccoder/selectincanvas.js/master/src/selectincanvas.js"></script>
+<link rel="stylesheet" href="font-awesome/css/font-awesome.min.css">
+<style>
+	.center {
+		margin: auto;
+		width: 640px;
+		display:table;
+	}
+	div.center a {
+		display:table-cell;
+		text-align:center;
+	}
+	input[type=file]{
+		width:87px;
+	}
+	a {
+		text-decoration: none;
+		color: black;
+	}
+</style>
 </head>
 <body>
-<h1>Crop Image</h1>
-<form action='#' onsubmit="return false;">
-    <input type='file' id='imgfile' />
-    <input type='button' id='btnLoad' value='Load' onclick='loadImage();' />
-</form>
-<a id="oi" href="#">Original Image</a>
-<a id="dl" download="canvas.png" href="#">Download Cropped Canvas</a>
+<h1 align="center">Crop Image</h1>
+<!--<form align="center" action='#' onsubmit="return false;">
+    <input type='file' id='imgfile' onchange='loadImage();'/>
+    <input type='button' id='btnLoad' value='Load' onclick='loadImage();'/>
+</form>-->
+<div align="center">
+	<input type='file' id='imgfile' onchange='loadImage();'/>
+	<br><br>
+	<span id='displayfilename'></span>
+</div>
 <br>
-<canvas id="layer1" width="640" height="480" style="border:1px solid #000000; position:absolute; left:10; top:10;"></canvas>
-<canvas id="layer2" width="640" height="480" style="border:1px solid #000000; position:absolute; left:10; top:10;"></canvas>
+<div class="center">
+	<a id="oi" class="fa fa-undo fa-2x" title="Undo All | Original Image"></a>
+	<a id="dl" download="canvas.png" class="fa fa-download fa-2x" title="Download Cropped Image"></a>
+</div>
+<br>
+<div class="center">
+	<canvas id="layer1" width="640" height="480" style="border:1px solid #000000; position:absolute;"></canvas>
+	<canvas id="layer2" width="640" height="480" style="border:1px solid #000000; position:absolute;"></canvas>
+</div>
 
 <script>
 
@@ -25,7 +54,7 @@
 	var ctx1 = canvas1.getContext("2d");
 	// Canvas for overlay
 	var canvas2 = document.getElementById("layer2");
-    	var ctx2 = canvas2.getContext("2d");
+    var ctx2 = canvas2.getContext("2d");
 	
 	var sicJs;
 	var img;// = new Image();
@@ -57,6 +86,10 @@
 	/* Only convert the canvas to Data URL when the user clicks. 
    	This saves RAM and CPU ressources in case this feature is not required. */
 	function dlCanvas() {
+	
+		if( sicJs == null )
+			return;
+	
 		var cropRect = sicJs.getRect();
 		var imgData = ctx1.getImageData(cropRect.x,cropRect.y,cropRect.w, cropRect.h);
 		
@@ -79,6 +112,10 @@
 	};
 	
 	function setOriginal() {
+	
+		if( img == null )
+			return;
+	
 		ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
 		ctx1.drawImage(img,canvas1.width/2-img.width/2,canvas1.height/2-img.height/2);
 		
@@ -87,51 +124,55 @@
 	};
 	
 	function loadImage() {
-	        var input, file, fr;
-	
-	        if (typeof window.FileReader !== 'function') {
-	            write("The file API isn't supported on this browser yet.");
-	            return;
-	        }
-	
-	        input = document.getElementById('imgfile');
-	        if (!input) {
-	            write("Um, couldn't find the imgfile element.");
-	        }
-	        else if (!input.files) {
-	            write("This browser doesn't seem to support the `files` property of file inputs.");
-	        }
-	        else if (!input.files[0]) {
-	            write("Please select a file before clicking 'Load'");
-	        }
-	        else {
-	            file = input.files[0];
-	            fr = new FileReader();
-	            fr.onload = createImage;
-	            fr.readAsDataURL(file);
-	        }
-	
-	        function createImage() {
-	            img = new Image();
-	            img.onload = imageLoaded;
-	            img.src = fr.result;
-	        }
-	
-	        function imageLoaded() {
-	            ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
-	            ctx1.drawImage(img,canvas1.width/2-img.width/2,canvas1.height/2-img.height/2);
-	            
-	            // Invoke selectInCanvas.js
-	            sicJs = new SICjs("layer2",canvas2,ctx2,'#FF0000');
-	            sicJs.setLimits(canvas2.width/2-img.width/2,canvas2.height/2-img.height/2,img.width, img.height);
-	            sicJs.setRect(canvas2.width/2-img.width/2,canvas2.height/2-img.height/2,img.width, img.height);
-	        }
-	
-	        function write(msg) {
-	            var p = document.createElement('p');
-	            p.innerHTML = msg;
-	            document.body.appendChild(p);
-	        }
+		var input, file, fr;
+
+		if (typeof window.FileReader !== 'function') {
+			write("The file API isn't supported on this browser yet.");
+			return;
+		}
+
+		input = document.getElementById('imgfile');
+		if (!input) {
+			write("Um, couldn't find the imgfile element.");
+		}
+		else if (!input.files) {
+			write("This browser doesn't seem to support the `files` property of file inputs.");
+		}
+		else if (!input.files[0]) {
+			write("Please select a file before clicking 'Load'");
+		}
+		else {
+			file = input.files[0];
+			document.getElementById("displayfilename").textContent=file.name;
+			fr = new FileReader();
+			fr.onload = createImage;
+			fr.readAsDataURL(file);
+		}
+
+		function createImage() {
+			img = new Image();
+			img.onload = imageLoaded;
+			img.src = fr.result;
+		}
+
+		function imageLoaded() {
+			ctx1.clearRect(0, 0, canvas1.width, canvas1.height);
+			ctx1.drawImage(img,canvas1.width/2-img.width/2,canvas1.height/2-img.height/2);
+			
+			// Invoke selectInCanvas.js
+			sicJs = new SICjs("layer2",canvas2,ctx2,'#FF0000');
+			sicJs.setLimits(canvas2.width/2-img.width/2,canvas2.height/2-img.height/2,img.width, img.height);
+			sicJs.setRect(canvas2.width/2-img.width/2,canvas2.height/2-img.height/2,img.width, img.height);
+			
+			document.getElementById("oi").href="#" ;
+			document.getElementById("dl").href="#" ;
+		}
+
+		function write(msg) {
+			var p = document.createElement('p');
+			p.innerHTML = msg;
+			document.body.appendChild(p);
+		}
 	};
 	
 </script>
